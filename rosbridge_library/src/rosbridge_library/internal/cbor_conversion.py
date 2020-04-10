@@ -67,8 +67,8 @@ def extract_cbor_values(msg):
         # time/duration
         elif slot_type in TIME_TYPES:
             out[slot] = {
-                'secs': int(val.secs),
-                'nsecs': int(val.nsecs),
+                'sec': int(val.secs),
+                'nsec': int(val.nsecs),
             }
 
         # byte array

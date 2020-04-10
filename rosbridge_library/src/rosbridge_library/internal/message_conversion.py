@@ -173,7 +173,7 @@ def _from_inst(inst, rostype):
 
     # Check for time or duration
     if rostype in ros_time_types:
-        return {"secs": inst.sec, "nsecs": inst.nsec}
+        return {"secs": inst.secs, "nsecs": inst.nsecs}
 
     if(bson_only_mode is None):bson_only_mode = rospy.get_param('~bson_only_mode', False)
     # Check for primitive types
