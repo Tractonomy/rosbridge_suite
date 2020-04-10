@@ -173,9 +173,9 @@ def _from_inst(inst, rostype):
 
     # Check for time or duration
     if rostype in ros_time_types:
-        return {"sec": inst.secs, "nanosec": inst.nsecs}
+        return {"secs": inst.sec, "nsecs": inst.nanosec}
 
-    if(bson_only_mode is None):bson_only_mode = rclpy.get_param('~bson_only_mode', False)
+    if(bson_only_mode is None):bson_only_mode = rospy.get_param('~bson_only_mode', False)
     # Check for primitive types
     if rostype in ros_primitive_types:
         #JSON does not support Inf and NaN. They are mapped to None and encoded as null
