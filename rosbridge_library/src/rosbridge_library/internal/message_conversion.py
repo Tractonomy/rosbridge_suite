@@ -37,6 +37,7 @@ from rclpy.clock import ROSClock
 
 from rosbridge_library.internal import ros_loader
 
+import array
 import math
 import re
 import string
@@ -70,11 +71,11 @@ else:
     primitive_types = [bool, int, long, float]
     python2 = True
 
-list_types = [list, tuple]
+list_types = [list, tuple, array.array]
 ros_time_types = ["builtin_interfaces/Time", "builtin_interfaces/Duration"]
 ros_primitive_types = ["bool", "byte", "char", "int8", "uint8", "int16",
                        "uint16", "int32", "uint32", "int64", "uint64",
-                       "float32", "float64", "double", "string"]
+                       "float32", "float64", "double", "string", "float", "int"]
 ros_header_types = ["Header", "std_msgs/Header", "roslib/Header"]
 ros_binary_types = ["uint8[]", "char[]"]
 list_tokens = re.compile('<(.+?)>')
@@ -149,7 +150,7 @@ def msg_instance_type_repr(msg_inst):
     # E.g: 'std_msgs/Header'
     msg_type = type(msg_inst)
     if msg_type in primitive_types or msg_type in list_types:
-        return str(type(inst))
+        return str(msg_type)
     inst_repr = str(msg_inst).split('.')
     return '{}/{}'.format(inst_repr[0], inst_repr[2].split('(')[0])
 
@@ -173,9 +174,9 @@ def _from_inst(inst, rostype):
 
     # Check for time or duration
     if rostype in ros_time_types:
-        return {"secs": inst.secs, "nsecs": inst.nsecs}
+        return {"secs": inst.sec, "nsecs": inst.nanosec}
 
-    if(bson_only_mode is None):bson_only_mode = rospy.get_param('~bson_only_mode', False)
+    if(bson_only_mode is None):bson_only_mode = rclpy.get_param('~bson_only_mode', False)
     # Check for primitive types
     if rostype in ros_primitive_types:
         #JSON does not support Inf and NaN. They are mapped to None and encoded as null
@@ -187,6 +188,8 @@ def _from_inst(inst, rostype):
     # Check if it's a list or tuple
     if type(inst) in list_types:
         return _from_list_inst(inst, rostype)
+
+    print(rostype)
 
     # Assume it's otherwise a full ros msg object
     return _from_object_inst(inst, rostype)
