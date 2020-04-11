@@ -37,6 +37,7 @@ from rclpy.clock import ROSClock
 
 from rosbridge_library.internal import ros_loader
 
+import array
 import math
 import re
 import string
@@ -70,7 +71,7 @@ else:
     primitive_types = [bool, int, long, float]
     python2 = True
 
-list_types = [list, tuple]
+list_types = [list, tuple, array.array]
 ros_time_types = ["builtin_interfaces/Time", "builtin_interfaces/Duration"]
 ros_primitive_types = ["bool", "byte", "char", "int8", "uint8", "int16",
                        "uint16", "int32", "uint32", "int64", "uint64",
