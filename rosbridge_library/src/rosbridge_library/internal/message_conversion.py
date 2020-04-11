@@ -183,7 +183,7 @@ def _from_inst(inst, rostype):
             if math.isnan(inst) or math.isinf(inst):
                 return None
         return inst
-    print(inst)
+    print(type(inst))
     # Check if it's a list or tuple
     if type(inst) in list_types:
         return _from_list_inst(inst, rostype)
