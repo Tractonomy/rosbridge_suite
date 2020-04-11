@@ -149,7 +149,7 @@ def msg_instance_type_repr(msg_inst):
     # E.g: 'std_msgs/Header'
     msg_type = type(msg_inst)
     if msg_type in primitive_types or msg_type in list_types:
-        return str(type(inst))
+        return str(msg_type)
     inst_repr = str(msg_inst).split('.')
     return '{}/{}'.format(inst_repr[0], inst_repr[2].split('(')[0])
 
